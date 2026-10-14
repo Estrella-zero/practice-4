@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:async_json/async_json.dart';
 
 Future<void>main()async{
+  try{
   final text=await File('data/books.json').readAsString();
   final books=[for (final j in jsonDecode(text) as List) Book.fromJson(j)];
   final byCat=<String,int>{};
@@ -13,4 +14,9 @@ Future<void>main()async{
   print('总数 ${books.length}');
   print('类目 $byCat');
   print('Top3 ${[for(final b in top3.take(3))'${b.title}(${b.borrowCount})']}');
+  }on FileSystemException{
+    print('数据文件缺失，请检查 data/books.json');
+  }catch(e){
+    print('解析失败:$e');
+  }
 }

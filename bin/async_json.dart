@@ -16,6 +16,8 @@ Future<void>main()async{
   print('Top3 ${[for(final b in top3.take(3))'${b.title}(${b.borrowCount})']}');
   }on FileSystemException{
     print('数据文件缺失，请检查 data/books.json');
+  }on TypeError{ 
+    print('字段类型错误，请检查 books.json 中的数据类型');
   }catch(e){
     print('解析失败:$e');
   }
